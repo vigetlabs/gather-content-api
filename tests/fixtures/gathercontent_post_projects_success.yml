@@ -1,0 +1,25 @@
+
+-
+    request:
+        method: POST
+        url: 'https://api.gathercontent.com/projects'
+        headers:
+            Host: api.gathercontent.com
+            Accept: application/vnd.gathercontent.v0.5+json
+        body: 'account_id=20225&name=Project+Name'
+    response:
+        status:
+            http_version: '1.1'
+            code: '202'
+            message: Accepted
+        headers:
+            Cache-Control: no-cache
+            Content-Type: 'text/html; charset=UTF-8'
+            Date: 'Mon, 21 Dec 2015 19:48:30 GMT'
+            Location: 'http://api.gathercontent.com/projects/66241'
+            Server: nginx/1.8.0
+            Set-Cookie: 'laravel_session=eyJpdiI6IjZtSXlzN1JMd3djK1RjVVlkb2M1aVdYQWYrVTRsVU01ZHA2TG1EeW81ZWc9IiwidmFsdWUiOiJ1NjFzWXBRQ1piYzhnUDBZWkdVT0ZCcFZMOFBLMVdmMXlHUUZNeGtzREpnRFNcL28zaTVPTVprWW1aalwvSXlJOXA4bVRjSU5YemQ1b05XSFcrc0l3SzZRPT0iLCJtYWMiOiI3NDU5MTg5ZmIxMmM0ZTM5YTA5NzMzOGNkZTYwZWY4NWE0NGUxNDE4MWY0YTc1YzQzYjJjYTQxYjg4MmNjYjRmIn0%3D; expires=Mon, 21-Dec-2015 21:48:30 GMT; Max-Age=7200; path=/; httponly'
+            X-Frame-Options: SAMEORIGIN
+            X-Powered-By: PHP/5.5.9-1ubuntu4.14
+            Content-Length: '0'
+            Connection: keep-alive

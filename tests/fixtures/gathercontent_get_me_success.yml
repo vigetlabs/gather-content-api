@@ -1,0 +1,25 @@
+
+-
+    request:
+        method: GET
+        url: 'https://api.gathercontent.com/me'
+        headers:
+            Host: api.gathercontent.com
+            Accept: application/vnd.gathercontent.v0.5+json
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            Cache-Control: no-cache
+            Content-Type: application/json
+            Date: 'Mon, 21 Dec 2015 19:03:24 GMT'
+            Server: nginx/1.8.0
+            Set-Cookie: 'laravel_session=eyJpdiI6Ik93MDRjUzRiVHdFbWZEXC8xU1h1aEk3MUI0Tm52MVRpMHFSNDJyNHhCRndJPSIsInZhbHVlIjoicG9LYXQwXC9ZRituaDU1UmM4eGh5YXdwckJBRitUbFJyZkVLU2FWMGtcL3FyQXFFQ21jWFRrem5GaHVjU3FtWWw5RVppMzcxd21mb3IyT1pHXC9HNlJ4MWc9PSIsIm1hYyI6IjNmMDk0OWZhY2U2MGNhZTVhYWRmNjEyZDg5MzM2ZTMxMzMxMTI1NTk2N2Y5NWNlZjZhOTIwMGQxMTUxYzYxMWEifQ%3D%3D; expires=Mon, 21-Dec-2015 21:03:24 GMT; Max-Age=7200; path=/; httponly'
+            Vary: Accept-Encoding
+            X-Frame-Options: SAMEORIGIN
+            X-Powered-By: PHP/5.5.9-1ubuntu4.14
+            Content-Length: '272'
+            Connection: keep-alive
+        body: '{"data":{"email":"heather.muety@viget.com","first_name":"Heather","last_name":"Muety","timezone":"UTC","language":null,"gender":null,"avatar":"","announcements":[{"id":"1","name":"inline_comments","acknowledged":false},{"id":"2","name":"templates","acknowledged":false}]}}'

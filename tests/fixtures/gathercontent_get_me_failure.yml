@@ -1,0 +1,25 @@
+
+-
+    request:
+        method: GET
+        url: 'https://api.gathercontent.com/me'
+        headers:
+            Host: api.gathercontent.com
+            Accept: application/vnd.gathercontent.v0.5+json
+    response:
+        status:
+            http_version: '1.1'
+            code: '401'
+            message: Unauthorized
+        headers:
+            Cache-Control: no-cache
+            Content-Type: 'text/html; charset=UTF-8'
+            Date: 'Mon, 21 Dec 2015 19:21:35 GMT'
+            Server: nginx/1.8.0
+            Set-Cookie: 'laravel_session=eyJpdiI6Ik5Pd2huNmV3dHkranRrZ3VTWmpGcEdmdHhwQUs3ZDVCVXZCQkg4aDNHUkk9IiwidmFsdWUiOiJIUXM4V2hZbzduSm5xa2pHdnR2OG1WVDBLWERkV3pwR2k0b0JmelwvMnZFQkpSdTB3XC81SU92Q0NKcnFIK0tYTm5hK3NNQ2xkS1FwWUU4RFwvcHRobUxnUT09IiwibWFjIjoiOTc4NmNmZjhjMGZiNWE5ODVkZTA3YWU2YjdiZjZhZmVkMzFhY2JhZjFiMTY1N2JmMDUzMzA3NGVmYjgyYmRjNCJ9; expires=Mon, 21-Dec-2015 21:21:35 GMT; Max-Age=7200; path=/; httponly'
+            WWW-Authenticate: Basic
+            X-Frame-Options: SAMEORIGIN
+            X-Powered-By: PHP/5.5.9-1ubuntu4.14
+            Content-Length: '20'
+            Connection: keep-alive
+        body: 'Invalid credentials.'

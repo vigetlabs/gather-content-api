@@ -1,0 +1,26 @@
+
+-
+    request:
+        method: POST
+        url: 'https://api.gathercontent.com/projects'
+        headers:
+            Host: api.gathercontent.com
+            Accept: application/vnd.gathercontent.v0.5+json
+        body: 'account_id=20225&name=Project+Name'
+    response:
+        status:
+            http_version: '1.1'
+            code: '401'
+            message: Unauthorized
+        headers:
+            Cache-Control: no-cache
+            Content-Type: 'text/html; charset=UTF-8'
+            Date: 'Mon, 21 Dec 2015 19:49:27 GMT'
+            Server: nginx/1.8.0
+            Set-Cookie: 'laravel_session=eyJpdiI6Ik5DUGgxTW9FeUFCTlM4STZqOHNcL2VrTEJiR0UyVXBxQzNvRSs5TkVmOXQ0PSIsInZhbHVlIjoiRFc1RkQ5Tjl2TW5SVDdnRVJTamJtcG9hQmErdTRxOXhJK05cL2FYa1FsTWx4a0FOV3hvWFBoRkFcLzRYVUFMVnlTZFM1ZFljYkpFNm95KzJCTlBKU0FCQT09IiwibWFjIjoiMGQxZmY5MjNkMjA3ZDQ0OGFlZDEwZjA1ZTI4MjI1NThkOTdlNjY4YjE4NmNkODU3MmI1OTg1ZjZiOTFiMjQ4YiJ9; expires=Mon, 21-Dec-2015 21:49:27 GMT; Max-Age=7200; path=/; httponly'
+            WWW-Authenticate: Basic
+            X-Frame-Options: SAMEORIGIN
+            X-Powered-By: PHP/5.5.9-1ubuntu4.14
+            Content-Length: '20'
+            Connection: keep-alive
+        body: 'Invalid credentials.'
