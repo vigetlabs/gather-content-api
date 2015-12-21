@@ -5,19 +5,19 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
     function testWasSuccessfulReturnsTrueOnSuccess()
     {
-        $subject = new \GatherContent\Response(dummyObject(['status' => 200]));
+        $subject = new \GatherContent\Response(dummyObject(['status' => 200, 'body' => '{}']));
         $this->assertTrue($subject->wasSuccessful());
     }
 
     function testWasSuccessfulReturnsTrueWithSuccessClassStatus()
     {
-        $subject = new \GatherContent\Response(dummyObject(['status' => 201]));
+        $subject = new \GatherContent\Response(dummyObject(['status' => 201, 'body' => '']));
         $this->assertTrue($subject->wasSuccessful());
     }
 
     function testWasSuccessfulReturnsFalseOnFailure()
     {
-        $subject = new \GatherContent\Response(dummyObject(['status' => 401]));
+        $subject = new \GatherContent\Response(dummyObject(['status' => 401, 'body' => 'Invalid']));
         $this->assertFalse($subject->wasSuccessful());
     }
 

@@ -20,11 +20,13 @@ class Response
 
     function fetch($key)
     {
-        return $this->decoded()[$key];
+        $decoded = $this->decoded();
+        return (array_key_exists($key, $decoded)) ? $decoded[$key] : null;
     }
 
     private function decoded()
     {
-        return $this->wasSuccessful() ? json_decode($this->body, true) : [];
+        $decoded = $this->wasSuccessful() ? json_decode($this->body, true) : [];
+        return (is_array($decoded) ? $decoded : []);
     }
 }
