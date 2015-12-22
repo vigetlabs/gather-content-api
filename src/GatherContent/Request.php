@@ -4,6 +4,8 @@ namespace GatherContent;
 
 class Request
 {
+    private $client = null;
+
     private $headers = [
         'Accept: application/vnd.gathercontent.v0.5+json'
     ];
