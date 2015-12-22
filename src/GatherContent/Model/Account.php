@@ -4,6 +4,8 @@ namespace GatherContent\Model;
 
 class Account
 {
+    use Assignable;
+
     public $id       = null;
     public $name     = null;
     public $slug     = null;
@@ -14,12 +16,9 @@ class Account
         return (new AccountCollection)->all();
     }
 
-    function __construct($attributes = [])
+    function projects()
     {
-        foreach ($attributes as $key => $value) {
-            if (property_exists($this, $key)) {
-                $this->$key = $value;
-            }
-        }
+        return (new ProjectCollection)->forAccountId($this->id);
     }
+
 }

@@ -41,6 +41,8 @@ class AccountCollectionTest extends \PHPUnit_Framework_TestCase
 
         $account = $accounts[0];
 
+        $this->assertInstanceOf('\GatherContent\Model\Account', $account);
+
         $this->assertEquals('1',    $account->id);
         $this->assertEquals('Name', $account->name);
         $this->assertEquals('slug', $account->slug);
