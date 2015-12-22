@@ -1,10 +1,12 @@
 <?php
 
-class AccountTest extends PHPUnit_Framework_TestCase
+namespace GatherContent\Model;
+
+class AccountTest extends \PHPUnit_Framework_TestCase
 {
     function testDefaultAttributeState()
     {
-        $subject = new \GatherContent\Model\Account;
+        $subject = new Account;
 
         $this->assertNull($subject->id);
         $this->assertNull($subject->name);
@@ -21,7 +23,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
             'timezone' => 'UTC'
         ];
 
-        $subject = new \GatherContent\Model\Account($attributes);
+        $subject = new Account($attributes);
 
         $this->assertEquals('1',       $subject->id);
         $this->assertEquals('Account', $subject->name);
@@ -31,7 +33,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
 
     function testRejectUnknownAttributes()
     {
-        $subject = new \GatherContent\Model\Account(['unknown' => 'value']);
+        $subject = new Account(['unknown' => 'value']);
 
         $this->assertObjectNotHasAttribute('unknown', $subject);
     }

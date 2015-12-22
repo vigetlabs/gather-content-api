@@ -1,15 +1,8 @@
 <?php
 
-class DummyHTTPClient
-{
-    public $email   = null;
-    public $api_key = null;
+namespace GatherContent;
 
-    function get($url, $params, $headers) {}
-    function post($url, $params, $headers) {}
-}
-
-class RequestTest extends PHPUnit_Framework_TestCase
+class RequestTest extends \PHPUnit_Framework_TestCase
 {
 
     private $default_headers = [
@@ -18,11 +11,11 @@ class RequestTest extends PHPUnit_Framework_TestCase
 
     function testConstructorPassesValuesToHttpClient()
     {
-        $client = new DummyHTTPClient;
+        $client = new \DummyHTTPClient;
 
-        \GatherContent\Configuration::configure('user@host.com', 'api-key');
+        Configuration::configure('user@host.com', 'api-key');
 
-        $subject = new \GatherContent\Request($client);
+        $subject = new Request($client);
 
         $this->assertEquals('user@host.com', $client->email);
         $this->assertEquals('api-key',       $client->api_key);
@@ -35,7 +28,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('https://api.gathercontent.com/me'), $this->equalTo([]), $this->equalTo($this->default_headers))
             ->willReturn(dummyObject(['status' => '200', 'body' => '{"key":"value"}']));
 
-        $subject = new \GatherContent\Request($client);
+        $subject = new Request($client);
 
         $response = $subject->get('me');
 
@@ -50,7 +43,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('https://api.gathercontent.com/me'), $this->equalTo([]), $this->equalTo($this->default_headers))
             ->willReturn(dummyObject(['status' => '401', 'body' => 'Invalid credentials.']));
 
-        $subject = new \GatherContent\Request($client);
+        $subject = new Request($client);
 
         $response = $subject->get('me');
 
@@ -65,7 +58,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('https://api.gathercontent.com/accounts'), $this->equalTo(['account_id' => '100']), $this->equalTo($this->default_headers))
             ->willReturn(dummyObject(['status' => '202', 'body' => '']));
 
-        $subject = new \GatherContent\Request($client);
+        $subject = new Request($client);
 
         $response = $subject->post('accounts', ['account_id' => '100']);
 

@@ -1,12 +1,8 @@
 <?php
 
-class DummyRequest
-{
-    function  get($endpoint, $params = []) {}
-    function post($endpoint, $params = []) {}
-}
+namespace GatherContent\Model;
 
-class AccountCollectionTest extends PHPUnit_Framework_TestCase
+class AccountCollectionTest extends \PHPUnit_Framework_TestCase
 {
     function testEmptyResponseReturnsNoAccounts()
     {
@@ -21,7 +17,7 @@ class AccountCollectionTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('accounts'))
             ->willReturn(new \GatherContent\Response($http_response));
 
-        $subject  = new \GatherContent\Model\AccountCollection($request);
+        $subject  = new AccountCollection($request);
         $this->assertEmpty($subject->all());
     }
 
@@ -38,7 +34,7 @@ class AccountCollectionTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('accounts'))
             ->willReturn(new \GatherContent\Response($http_response));
 
-        $subject  = new \GatherContent\Model\AccountCollection($request);
+        $subject  = new AccountCollection($request);
         $accounts = $subject->all();
 
         $this->assertCount(1, $accounts);

@@ -1,6 +1,8 @@
 <?php
 
-class HTTPClientTest extends PHPUnit_Framework_TestCase
+namespace GatherContent;
+
+class HTTPClientTest extends \PHPUnit_Framework_TestCase
 {
     function setUp()
     {
@@ -15,7 +17,7 @@ class HTTPClientTest extends PHPUnit_Framework_TestCase
 
     function testConstructorSetsValues()
     {
-        $subject = new \GatherContent\HTTPClient('user@host.com', 'key');
+        $subject = new HTTPClient('user@host.com', 'key');
 
         $this->assertEquals('user@host.com', $subject->email);
         $this->assertEquals('key',           $subject->api_key);
@@ -25,7 +27,7 @@ class HTTPClientTest extends PHPUnit_Framework_TestCase
     {
         \VCR\VCR::insertCassette('gathercontent_get_me_success.yml');
 
-        $subject = new \GatherContent\HTTPClient('valid.user@example.com', 'valid-api-key');
+        $subject = new HTTPClient('valid.user@example.com', 'valid-api-key');
 
         $response = $subject->get('https://api.gathercontent.com/me', [], ['Accept: application/vnd.gathercontent.v0.5+json']);
 
@@ -37,7 +39,7 @@ class HTTPClientTest extends PHPUnit_Framework_TestCase
     {
         \VCR\VCR::insertCassette('gathercontent_get_me_failure.yml');
 
-        $subject = new \GatherContent\HTTPClient('invalid.user@example.com', 'bogus-api-key');
+        $subject = new HTTPClient('invalid.user@example.com', 'bogus-api-key');
 
         $response = $subject->get('https://api.gathercontent.com/me', [], ['Accept: application/vnd.gathercontent.v0.5+json']);
 
@@ -49,7 +51,7 @@ class HTTPClientTest extends PHPUnit_Framework_TestCase
     {
         \VCR\VCR::insertCassette('gathercontent_post_projects_success.yml');
 
-        $subject = new \GatherContent\HTTPClient('valid.user@example.com', 'valid-api-key');
+        $subject = new HTTPClient('valid.user@example.com', 'valid-api-key');
 
         $response = $subject->post(
             'https://api.gathercontent.com/projects',
@@ -65,7 +67,7 @@ class HTTPClientTest extends PHPUnit_Framework_TestCase
     {
         \VCR\VCR::insertCassette('gathercontent_post_projects_failure.yml');
 
-        $subject = new \GatherContent\HTTPClient('invalid.user@example.com', 'bogus-api-key');
+        $subject = new HTTPClient('invalid.user@example.com', 'bogus-api-key');
 
         $response = $subject->post(
             'https://api.gathercontent.com/projects',

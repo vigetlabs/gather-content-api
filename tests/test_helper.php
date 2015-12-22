@@ -16,3 +16,18 @@ function dummyObject($properties = [])
     }
     return $object;
 }
+
+class DummyHTTPClient
+{
+    public $email   = null;
+    public $api_key = null;
+
+    function get($url, $params, $headers) {}
+    function post($url, $params, $headers) {}
+}
+
+class DummyRequest
+{
+    function  get($endpoint, $params = []) {}
+    function post($endpoint, $params = []) {}
+}
