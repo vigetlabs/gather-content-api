@@ -16,25 +16,11 @@ class RequestTest extends PHPUnit_Framework_TestCase
         'Accept: application/vnd.gathercontent.v0.5+json'
     ];
 
-    function testDefaultOptions()
-    {
-        $this->assertNull(\GatherContent\Request::$email);
-        $this->assertNull(\GatherContent\Request::$api_key);
-    }
-
-    function testConfigureSetsAppropriateOptions()
-    {
-        \GatherContent\Request::configure('user@host.com', 'api-key');
-
-        $this->assertEquals('user@host.com', \GatherContent\Request::$email);
-        $this->assertEquals('api-key',       \GatherContent\Request::$api_key);
-    }
-
     function testConstructorPassesValuesToHttpClient()
     {
         $client = new DummyHTTPClient;
 
-        \GatherContent\Request::configure('user@host.com', 'api-key');
+        \GatherContent\Configuration::configure('user@host.com', 'api-key');
 
         $subject = new \GatherContent\Request($client);
 
