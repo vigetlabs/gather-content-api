@@ -4,6 +4,17 @@ namespace GatherContent\Model;
 
 class AccountCollectionTest extends \PHPUnit_Framework_TestCase
 {
+    function buildCollection($accounts)
+    {
+        $stub = $this->getMockBuilder('\GatherContent\Model\AccountCollection')
+                     ->setMethods(['all'])
+                     ->getMock();
+
+        $stub->method('all')->willReturn($accounts);
+
+        return $stub;
+    }
+
     function testEmptyResponseReturnsNoAccounts()
     {
         $http_response = dummyObject([
@@ -48,4 +59,77 @@ class AccountCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('slug', $account->slug);
         $this->assertEquals('UTC',  $account->timezone);
     }
+
+    function testFindByIdReturnsNullWhenNoAccounts()
+    {
+        $subject = $this->buildCollection([]);
+        $this->assertNull($subject->findById('2'));
+    }
+
+    function testFindByIdReturnsNullWhenNoneFound()
+    {
+        $account = new Account(['id' => '1']);
+        $subject = $this->buildCollection([$account]);
+
+        $this->assertNull($subject->findById('2'));
+    }
+
+    function testFindByIdReturnsAccountForId()
+    {
+        $account_1 = new Account(['id' => '1']);
+        $account_2 = new Account(['id' => '2']);
+
+        $subject = $this->buildCollection([$account_1, $account_2]);
+
+        $this->assertEquals($account_1, $subject->findById('1'));
+    }
+
+    function testFindByNameReturnsNullWhenNoAccounts()
+    {
+        $subject = $this->buildCollection([]);
+        $this->assertNull($subject->findByName('Viget'));
+    }
+
+    function testFindByNameReturnsNullWhenNoneFound()
+    {
+        $account = new Account(['name' => 'Viget']);
+        $subject = $this->buildCollection([$account]);
+
+        $this->assertNull($subject->findByName('Missing'));
+    }
+
+    function testFindByNameReturnsAccountForName()
+    {
+        $account_1 = new Account(['name' => 'Viget']);
+        $account_2 = new Account(['name' => 'Other']);
+
+        $subject = $this->buildCollection([$account_1, $account_2]);
+
+        $this->assertEquals($account_1, $subject->findByName('Viget'));
+    }
+
+    function testFindBySlugReturnsNullWhenNoAccounts()
+    {
+        $subject = $this->buildCollection([]);
+        $this->assertNull($subject->findBySlug('viget'));
+    }
+
+    function testFindBySlugReturnsNullWhenNoneFound()
+    {
+        $account = new Account(['slug' => 'viget']);
+        $subject = $this->buildCollection([$account]);
+
+        $this->assertNull($subject->findBySlug('missing'));
+    }
+
+    function testFindBySlugReturnsAccountForSlug()
+    {
+        $account_1 = new Account(['slug' => 'viget']);
+        $account_2 = new Account(['slug' => 'other']);
+
+        $subject = $this->buildCollection([$account_1, $account_2]);
+
+        $this->assertEquals($account_1, $subject->findBySlug('viget'));
+    }
+
 }
