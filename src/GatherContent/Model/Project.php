@@ -13,6 +13,11 @@ class Project
     public $overdue        = null;
     public $text_direction = null;
 
+    function items()
+    {
+        return (new ItemCollection)->forProjectId($this->id);
+    }
+
     function isActive()
     {
         return $this->isFlagEnabled('active');
