@@ -4,6 +4,18 @@ namespace GatherContent\Model;
 
 class FileTest extends \PHPUnit_Framework_TestCase
 {
+    use \TestHelpers;
+
+    function setUp()
+    {
+        $this->removeTempDir();
+    }
+
+    function tearDown()
+    {
+        $this->removeTempDir();
+    }
+
     function testDefaultAttributeState()
     {
         $subject = new File;
@@ -37,6 +49,68 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('food.jpg', $subject->filename);
 
         $this->assertEquals('https://gathercontent.s3.amazonaws.com/b33f', $subject->url);
+    }
+
+    function testSaveToCreatesDirectory()
+    {
+        $subject = new File;
+
+        $this->assertFileNotExists($this->tempDir());
+
+        $subject->saveTo($this->tempDir());
+
+        $this->assertFileExists($this->tempDir());
+    }
+
+    function testSaveToSavesFile()
+    {
+        $source_url = 'http://example.com/d34db33f';
+        $filename   = 'file.jpg';
+
+        $downloader = $this->getMockBuilder('DummyDownloader')->getMock();
+        $downloader->method('setSourceUrl')->with($this->equalTo($source_url))->willReturn($downloader);
+        $downloader->expects($this->once())->method('saveAs')->with($this->equalTo($this->tempDir() . '/' . $filename))->willReturn(true);
+
+        $subject = new File(['filename' => $filename, 'url' => $source_url], $downloader);
+
+        $subject->saveTo($this->tempDir());
+    }
+
+    function testSaveToRequiresUrl()
+    {
+        $subject = new File(['filename' => 'foo.jpg']);
+        $this->assertNull($subject->saveTo($this->tempDir()));
+    }
+
+    function testSaveToRequiresFilename()
+    {
+        $subject = new File(['url' => 'http://example.com/d34db33f']);
+        $this->assertNull($subject->saveTo($this->tempDir()));
+    }
+
+    function testSaveToReturnsFilename()
+    {
+        $filename   = 'file.jpg';
+
+        $downloader = $this->getMockBuilder('DummyDownloader')->getMock();
+        $downloader->method('setSourceUrl')->willReturn($downloader);
+        $downloader->method('saveAs')->willReturn(true);
+
+        $subject = new File(['filename' => $filename, 'url' => 'url'], $downloader);
+
+        $this->assertEquals($this->tempDir() . '/' . $filename, $subject->saveTo($this->tempDir()));
+    }
+
+    function testSaveToReturnsNullWhenTargetNotADirectory()
+    {
+        $target = $this->tempDir() . '/foo.jpg';
+
+        $this->createTempDir();
+        touch($target);
+
+        $subject = new File(['filename' => 'foo.jpg', 'url' => 'url']);
+
+        $this->assertNull($subject->saveTo($target));
     }
 
 }

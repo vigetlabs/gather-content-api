@@ -1,0 +1,24 @@
+
+-
+    request:
+        method: GET
+        url: 'https://gathercontent.s3.amazonaws.com/filename_hash'
+        headers:
+            Host: gathercontent.s3.amazonaws.com
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            x-amz-id-2: /USRC6ct1FRTMSESf+hGjIkLcBYMapcx9gZYauaP0drM1X3FisSJlVOVh8MdaXdk12RrXwI4jVg=
+            x-amz-request-id: 2D4AC5334F258948
+            Date: 'Mon, 04 Jan 2016 18:35:16 GMT'
+            x-amz-version-id: bMt2maw8Egj1xYbij4l7l9aWFhrCxPqv
+            Last-Modified: 'Tue, 22 Dec 2015 19:40:59 GMT'
+            ETag: '"6788e56454b3d38e2cff8a0234ea557d"'
+            Accept-Ranges: bytes
+            Content-Type: application/octet-stream
+            Content-Length: '167718'
+            Server: AmazonS3
+        body: file-contents

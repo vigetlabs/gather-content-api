@@ -31,3 +31,28 @@ class DummyRequest
     function  get($endpoint, $params = []) {}
     function post($endpoint, $params = []) {}
 }
+
+class DummyDownloader
+{
+    function setSourceUrl($url)   {}
+    function saveAs($destination) {}
+}
+
+trait TestHelpers
+{
+    function tempDir()
+    {
+        return __DIR__ . '/../tmp';
+    }
+
+    function removeTempDir()
+    {
+        system("rm -rf " . escapeshellarg($this->tempDir()));
+    }
+
+    function createTempDir()
+    {
+        system("mkdir " . escapeshellarg($this->tempDir()));
+    }
+}
+
