@@ -12,7 +12,7 @@ class FileCollectionTest extends \PHPUnit_Framework_TestCase
             'body'   => '{"data":[]}'
         ]);
 
-        $request = $this->getMockBuilder('DummyRequest')->getMock();
+        $request = $this->getMockBuilder('\Test\Request')->getMock();
 
         $request->method('get')
             ->with($this->equalTo('items/1/files'))
@@ -30,7 +30,7 @@ class FileCollectionTest extends \PHPUnit_Framework_TestCase
             'body'   => '{"data":[{"id":2,"item_id":1,"size":121,"field":"el1","filename":"food.jpg","url":"http://example.com/b33f"}]}'
         ]);
 
-        $request = $this->getMockBuilder('DummyRequest')->getMock();
+        $request = $this->getMockBuilder('\Test\Request')->getMock();
 
         $request->method('get')
             ->with($this->equalTo('items/1/files'))

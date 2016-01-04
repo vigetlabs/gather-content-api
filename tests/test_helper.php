@@ -1,58 +1,63 @@
 <?php
 
-require_once __DIR__ . "/../vendor/autoload.php";
-
-\VCR\VCR::configure()
-  ->enableLibraryHooks(['curl'])
-  ->setMode('once');
-
-\VCR\VCR::turnOn();
-
-function dummyObject($properties = [])
+namespace
 {
-    $object = new \StdClass;
-    foreach ($properties as $key => $value) {
-        $object->$key = $value;
-    }
-    return $object;
-}
+    require_once __DIR__ . "/../vendor/autoload.php";
 
-class DummyHTTPClient
-{
-    public $email   = null;
-    public $api_key = null;
+    \VCR\VCR::configure()
+      ->enableLibraryHooks(['curl'])
+      ->setMode('once');
 
-    function get($url, $params, $headers) {}
-    function post($url, $params, $headers) {}
-}
+    \VCR\VCR::turnOn();
 
-class DummyRequest
-{
-    function  get($endpoint, $params = []) {}
-    function post($endpoint, $params = []) {}
-}
-
-class DummyDownloader
-{
-    function setSourceUrl($url)   {}
-    function saveAs($destination) {}
-}
-
-trait TestHelpers
-{
-    function tempDir()
+    function dummyObject($properties = [])
     {
-        return __DIR__ . '/../tmp';
-    }
-
-    function removeTempDir()
-    {
-        system("rm -rf " . escapeshellarg($this->tempDir()));
-    }
-
-    function createTempDir()
-    {
-        system("mkdir " . escapeshellarg($this->tempDir()));
+        $object = new \StdClass;
+        foreach ($properties as $key => $value) {
+            $object->$key = $value;
+        }
+        return $object;
     }
 }
 
+namespace Test
+{
+    class HTTPClient
+    {
+        public $email   = null;
+        public $api_key = null;
+
+        function get($url, $params, $headers) {}
+        function post($url, $params, $headers) {}
+    }
+
+    class Request
+    {
+        function  get($endpoint, $params = []) {}
+        function post($endpoint, $params = []) {}
+    }
+
+    class Downloader
+    {
+        function setSourceUrl($url)   {}
+        function saveAs($destination) {}
+    }
+
+    trait Helpers
+    {
+        function tempDir()
+        {
+            return __DIR__ . '/../tmp';
+        }
+
+        function removeTempDir()
+        {
+            system("rm -rf " . escapeshellarg($this->tempDir()));
+        }
+
+        function createTempDir()
+        {
+            system("mkdir " . escapeshellarg($this->tempDir()));
+        }
+    }
+}

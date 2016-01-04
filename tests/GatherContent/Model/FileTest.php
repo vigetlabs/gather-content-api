@@ -4,7 +4,7 @@ namespace GatherContent\Model;
 
 class FileTest extends \PHPUnit_Framework_TestCase
 {
-    use \TestHelpers;
+    use \Test\Helpers;
 
     function setUp()
     {
@@ -67,7 +67,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $source_url = 'http://example.com/d34db33f';
         $filename   = 'file.jpg';
 
-        $downloader = $this->getMockBuilder('DummyDownloader')->getMock();
+        $downloader = $this->getMockBuilder('\Test\Downloader')->getMock();
         $downloader->method('setSourceUrl')->with($this->equalTo($source_url))->willReturn($downloader);
         $downloader->expects($this->once())->method('saveAs')->with($this->equalTo($this->tempDir() . '/' . $filename))->willReturn(true);
 
@@ -92,7 +92,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $filename   = 'file.jpg';
 
-        $downloader = $this->getMockBuilder('DummyDownloader')->getMock();
+        $downloader = $this->getMockBuilder('\Test\Downloader')->getMock();
         $downloader->method('setSourceUrl')->willReturn($downloader);
         $downloader->method('saveAs')->willReturn(true);
 

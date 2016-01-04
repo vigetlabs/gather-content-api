@@ -11,7 +11,7 @@ class ItemCollectionTest extends \PHPUnit_Framework_TestCase
             'body'   => '{"data":[]}'
         ]);
 
-        $request = $this->getMockBuilder('DummyRequest')->getMock();
+        $request = $this->getMockBuilder('\Test\Request')->getMock();
 
         $request->method('get')
             ->with($this->equalTo('items'), $this->equalTo(['project_id' => '1']))
@@ -28,7 +28,7 @@ class ItemCollectionTest extends \PHPUnit_Framework_TestCase
             'body'   => '{"data":[{"id":2,"name":"Item","overdue":false,"parent_id":1,"position":0,"project_id":2,"template_id":3}]}'
         ]);
 
-        $request = $this->getMockBuilder('DummyRequest')->getMock();
+        $request = $this->getMockBuilder('\Test\Request')->getMock();
 
         $request->method('get')
             ->with($this->equalTo('items'), $this->equalTo(['project_id' => '2']))

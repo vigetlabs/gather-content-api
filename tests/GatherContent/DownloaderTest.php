@@ -4,7 +4,7 @@ namespace GatherContent;
 
 class DownloaderTest extends \PHPUnit_Framework_TestCase
 {
-    use \TestHelpers;
+    use \Test\Helpers;
 
     function setUp()
     {

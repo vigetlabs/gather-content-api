@@ -11,7 +11,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     function testConstructorPassesValuesToHttpClient()
     {
-        $client = new \DummyHTTPClient;
+        $client = new \Test\HTTPClient;
 
         Configuration::configure('user@host.com', 'api-key');
 
@@ -23,7 +23,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     function testGetMakesSuccessfulRequestWithClient()
     {
-        $client = $this->getMockBuilder('DummyHTTPClient')->getMock();
+        $client = $this->getMockBuilder('\Test\HTTPClient')->getMock();
         $client->method('get')
             ->with($this->equalTo('https://api.gathercontent.com/me'), $this->equalTo([]), $this->equalTo($this->default_headers))
             ->willReturn(dummyObject(['status' => '200', 'body' => '{"key":"value"}']));
@@ -38,7 +38,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     function testGetMakesUnsuccessfulRequestWithClient()
     {
-        $client = $this->getMockBuilder('DummyHTTPClient')->getMock();
+        $client = $this->getMockBuilder('\Test\HTTPClient')->getMock();
         $client->method('get')
             ->with($this->equalTo('https://api.gathercontent.com/me'), $this->equalTo([]), $this->equalTo($this->default_headers))
             ->willReturn(dummyObject(['status' => '401', 'body' => 'Invalid credentials.']));
@@ -53,7 +53,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     function testPostMakesSuccessfulRequestWithClient()
     {
-        $client = $this->getMockBuilder('DummyHTTPClient')->getMock();
+        $client = $this->getMockBuilder('\Test\HTTPClient')->getMock();
         $client->method('post')
             ->with($this->equalTo('https://api.gathercontent.com/accounts'), $this->equalTo(['account_id' => '100']), $this->equalTo($this->default_headers))
             ->willReturn(dummyObject(['status' => '202', 'body' => '']));

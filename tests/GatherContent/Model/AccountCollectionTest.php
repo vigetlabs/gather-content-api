@@ -22,7 +22,7 @@ class AccountCollectionTest extends \PHPUnit_Framework_TestCase
             'body'   => '{"data":[]}'
         ]);
 
-        $request = $this->getMockBuilder('DummyRequest')->getMock();
+        $request = $this->getMockBuilder('\Test\Request')->getMock();
 
         $request->method('get')
             ->with($this->equalTo('accounts'))
@@ -39,7 +39,7 @@ class AccountCollectionTest extends \PHPUnit_Framework_TestCase
             'body'   => '{"data":[{"id":1,"name":"Name","slug":"slug","timezone":"UTC"}]}'
         ]);
 
-        $request = $this->getMockBuilder('DummyRequest')->getMock();
+        $request = $this->getMockBuilder('\Test\Request')->getMock();
 
         $request->method('get')
             ->with($this->equalTo('accounts'))
