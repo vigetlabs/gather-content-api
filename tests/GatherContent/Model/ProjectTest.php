@@ -19,8 +19,8 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
     function testSettingAllowedAttributes()
     {
         $attributes = [
-            'id'             => '2',
-            'account_id'     => '1',
+            'id'             => 2,
+            'account_id'     => 1,
             'active'         => true,
             'name'           => 'Project',
             'overdue'        => false,
@@ -29,8 +29,9 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
 
         $subject = new Project($attributes);
 
-        $this->assertEquals('2',       $subject->id);
-        $this->assertEquals('1',       $subject->account_id);
+        $this->assertSame(2, $subject->id);
+        $this->assertSame(1, $subject->account_id);
+
         $this->assertEquals('Project', $subject->name);
         $this->assertEquals('ltr',     $subject->text_direction);
 

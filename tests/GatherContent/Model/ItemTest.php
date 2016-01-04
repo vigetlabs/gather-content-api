@@ -31,16 +31,15 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $subject = new Item($attributes);
 
-        $this->assertEquals(2,      $subject->id);
+        $this->assertSame(2, $subject->id);
+        $this->assertSame(1, $subject->parent_id);
+        $this->assertSame(0, $subject->position);
+        $this->assertSame(3, $subject->project_id);
+        $this->assertSame(4, $subject->template_id);
+
         $this->assertEquals('Item', $subject->name);
-        $this->assertEquals(1,      $subject->parent_id);
-        $this->assertEquals(0,      $subject->position);
-        $this->assertEquals(3,      $subject->project_id);
-        $this->assertEquals(4,      $subject->template_id);
 
         $this->assertFalse($subject->overdue);
     }
 
-
 }
-

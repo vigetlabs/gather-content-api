@@ -36,7 +36,7 @@ class AccountCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $http_response = dummyObject([
             'status' => '200',
-            'body'   => '{"data":[{"id":"1","name":"Name","slug":"slug","timezone":"UTC"}]}'
+            'body'   => '{"data":[{"id":1,"name":"Name","slug":"slug","timezone":"UTC"}]}'
         ]);
 
         $request = $this->getMockBuilder('DummyRequest')->getMock();
@@ -54,7 +54,8 @@ class AccountCollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('\GatherContent\Model\Account', $account);
 
-        $this->assertEquals('1',    $account->id);
+        $this->assertSame(1, $account->id);
+
         $this->assertEquals('Name', $account->name);
         $this->assertEquals('slug', $account->slug);
         $this->assertEquals('UTC',  $account->timezone);
@@ -68,20 +69,20 @@ class AccountCollectionTest extends \PHPUnit_Framework_TestCase
 
     function testFindByIdReturnsNullWhenNoneFound()
     {
-        $account = new Account(['id' => '1']);
+        $account = new Account(['id' => 1]);
         $subject = $this->buildCollection([$account]);
 
-        $this->assertNull($subject->findById('2'));
+        $this->assertNull($subject->findById(2));
     }
 
     function testFindByIdReturnsAccountForId()
     {
-        $account_1 = new Account(['id' => '1']);
-        $account_2 = new Account(['id' => '2']);
+        $account_1 = new Account(['id' => 1]);
+        $account_2 = new Account(['id' => 2]);
 
         $subject = $this->buildCollection([$account_1, $account_2]);
 
-        $this->assertEquals($account_1, $subject->findById('1'));
+        $this->assertEquals($account_1, $subject->findById(1));
     }
 
     function testFindByNameReturnsNullWhenNoAccounts()

@@ -25,17 +25,17 @@ class ProjectCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $http_response = dummyObject([
             'status' => '200',
-            'body'   => '{"data":[{"id":"2","account_id":"1","active":true,"name":"Project","overdue":false,"text_direction":"ltr"}]}'
+            'body'   => '{"data":[{"id":2,"account_id":1,"active":true,"name":"Project","overdue":false,"text_direction":"ltr"}]}'
         ]);
 
         $request = $this->getMockBuilder('DummyRequest')->getMock();
 
         $request->method('get')
-            ->with($this->equalTo('projects'), $this->equalTo(['account_id' => '1']))
+            ->with($this->equalTo('projects'), $this->equalTo(['account_id' => 1]))
             ->willReturn(new \GatherContent\Response($http_response));
 
         $subject  = new ProjectCollection($request);
-        $projects = $subject->forAccountId('1');
+        $projects = $subject->forAccountId(1);
 
         $this->assertCount(1, $projects);
 
@@ -43,12 +43,14 @@ class ProjectCollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('\GatherContent\Model\Project', $project);
 
-        $this->assertEquals('2',       $project->id);
-        $this->assertEquals('1',       $project->account_id);
+        $this->assertSame(2, $project->id);
+        $this->assertSame(1, $project->account_id);
+
         $this->assertEquals('Project', $project->name);
         $this->assertEquals('ltr',     $project->text_direction);
 
         $this->assertTrue($project->active);
         $this->assertFalse($project->overdue);
     }
+
 }

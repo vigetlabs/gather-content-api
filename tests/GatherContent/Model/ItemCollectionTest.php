@@ -17,7 +17,7 @@ class ItemCollectionTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('items'), $this->equalTo(['project_id' => '1']))
             ->willReturn(new \GatherContent\Response($http_response));
 
-        $subject  = new ItemCollection($request);
+        $subject = new ItemCollection($request);
         $this->assertEmpty($subject->forProjectId('1'));
     }
 
@@ -43,12 +43,13 @@ class ItemCollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('\GatherContent\Model\Item', $item);
 
-        $this->assertEquals(2,      $item->id);
+        $this->assertSame(2, $item->id);
+        $this->assertSame(1, $item->parent_id);
+        $this->assertSame(0, $item->position);
+        $this->assertSame(2, $item->project_id);
+        $this->assertSame(3, $item->template_id);
+
         $this->assertEquals('Item', $item->name);
-        $this->assertEquals(1,      $item->parent_id);
-        $this->assertEquals(0,      $item->position);
-        $this->assertEquals(2,      $item->project_id);
-        $this->assertEquals(3,      $item->template_id);
 
         $this->assertFalse($item->overdue);
     }

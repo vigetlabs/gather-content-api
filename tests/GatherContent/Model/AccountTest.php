@@ -17,7 +17,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     function testSettingAllowedAttributes()
     {
         $attributes = [
-            'id'       => '1',
+            'id'       => 1,
             'name'     => 'Account',
             'slug'     => 'account',
             'timezone' => 'UTC'
@@ -25,7 +25,8 @@ class AccountTest extends \PHPUnit_Framework_TestCase
 
         $subject = new Account($attributes);
 
-        $this->assertEquals('1',       $subject->id);
+        $this->assertSame(1, $subject->id);
+
         $this->assertEquals('Account', $subject->name);
         $this->assertEquals('account', $subject->slug);
         $this->assertEquals('UTC',     $subject->timezone);
