@@ -14,4 +14,9 @@ class Item
     public $project_id  = null;
     public $template_id = null;
 
+    function files()
+    {
+        return (new FileCollection)->forItemId($this->id);
+    }
+
 }
