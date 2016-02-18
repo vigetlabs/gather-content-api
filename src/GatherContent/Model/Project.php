@@ -13,9 +13,11 @@ class Project
     public $overdue        = null;
     public $text_direction = null;
 
-    function items()
+    function items($filter = null)
     {
-        return (new ItemCollection)->forProjectId($this->id);
+        $itemCollection = (new ItemCollection)->forProjectId($this->id, $filter);
+
+        return $itemCollection;
     }
 
     function isActive()
