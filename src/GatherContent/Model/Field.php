@@ -11,5 +11,6 @@ class Field
     public $required   = null;
     public $label      = null;
     public $microcopy  = null;
+    public $value      = null;
     
 }
