@@ -12,5 +12,6 @@ class Field
     public $label      = null;
     public $microcopy  = null;
     public $value      = null;
+    public $options    = null;
     
 }
