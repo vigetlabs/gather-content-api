@@ -26,7 +26,10 @@ class Response
 
     private function decoded()
     {
-        $decoded = $this->wasSuccessful() ? json_decode($this->body, true) : [];
-        return (is_array($decoded) ? $decoded : []);
+        if ($this->wasSuccessful() && is_array(json_decode($this->body, true))) {
+            return json_decode($this->body, true);
+        }
+
+        throw new \Exception("Response not successful");
     }
 }
