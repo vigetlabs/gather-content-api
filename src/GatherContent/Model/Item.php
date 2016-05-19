@@ -22,7 +22,10 @@ class Item
     public $status          = null;
     public $due_dates       = null;
 
+    public $isQA            = null;
+    public $bookId          = null;
     public $tabs            = [];
+    public $fields          = [];
 
     static function retrieveItem($itemId)
     {
@@ -47,4 +50,29 @@ class Item
         return array_values($this->tabs);
     }
 
+    function getFields() {
+        if (!$this->fields) {
+            $tabs = $this->getTabs();
+            foreach ($tabs as $tab) {
+                $this->fields = array_merge($this->fields, $tab->getFields());
+            }
+        }
+
+        return $this->fields;
+    }
+
+    function getBookId() {
+        return $this->bookId;
+    }
+
+    function setBookId($bookId) {
+        $this->bookId = $bookId;
+    }
+
+    function isQA () {
+        if (is_null($this->isQA)) {
+            $this->isQA = strpos($this->name, "Q&A") !== false;
+        }
+        return $this->isQA;
+    }
 }
