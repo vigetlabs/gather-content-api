@@ -62,11 +62,18 @@ class Item
     }
 
     function getBookId() {
+        if (is_null($this->bookId) && !is_null($this->parent_id)) {
+            $parent = Item::retrieveItem($this->parent_id);
+            $bookId = $parent->getTabs()[0]->getFields()[0]->value;
+            $this->setBookId($bookId);
+        }
+
         return $this->bookId;
     }
 
     function setBookId($bookId) {
         $this->bookId = $bookId;
+        return $this;
     }
 
     function isQA () {
