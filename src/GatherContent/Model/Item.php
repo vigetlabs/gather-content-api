@@ -26,6 +26,7 @@ class Item
     public $bookId          = null;
     public $tabs            = [];
     public $fields          = [];
+    public $type            = null;
 
     static function retrieveItem($itemId)
     {
@@ -81,5 +82,17 @@ class Item
             $this->isQA = strpos($this->name, "Q&A") !== false;
         }
         return $this->isQA;
+    }
+
+    function getItemType () {
+        if (strpos($this->name, "Q&A") !== false) {
+            $this->type = "qa";
+        } else if (strpos($this->name, "Study Guide") !== false) {
+            $this->type = "study_guide";
+        } else {
+            $this->type = $this->name;
+        }
+
+        return $this->type;
     }
 }
