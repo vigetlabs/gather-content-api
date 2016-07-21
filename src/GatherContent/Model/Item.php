@@ -7,6 +7,7 @@ use \GatherContent\Request;
 class Item
 {
     use Assignable;
+    use TabsContainer;
 
     public $id              = null;
     public $name            = null;
@@ -24,8 +25,6 @@ class Item
 
     public $isQA            = null;
     public $bookId          = null;
-    public $tabs            = [];
-    public $fields          = [];
     public $type            = null;
 
     static function retrieveItem($itemId)
@@ -38,28 +37,6 @@ class Item
     function files()
     {
         return (new FileCollection)->forItemId($this->id);
-    }
-
-    function getTabs()
-    {
-        if (!$this->tabs) {
-            foreach($this->config as $tab) {
-                array_push($this->tabs, new Tab($tab));
-            }
-        }
-
-        return array_values($this->tabs);
-    }
-
-    function getFields() {
-        if (!$this->fields) {
-            $tabs = $this->getTabs();
-            foreach ($tabs as $tab) {
-                $this->fields = array_merge($this->fields, $tab->getFields());
-            }
-        }
-
-        return $this->fields;
     }
 
     function getBookId() {
