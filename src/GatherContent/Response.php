@@ -32,4 +32,12 @@ class Response
 
         throw new \Exception("Response not successful");
     }
+
+    public function getStatus() {
+        return $this->status_code;
+    }
+
+    public function getBody() {
+        return $this->body;
+    }
 }
