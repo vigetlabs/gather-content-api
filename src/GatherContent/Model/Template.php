@@ -1,6 +1,7 @@
 <?php
 
 namespace GatherContent\Model;
+use \GatherContent\Request;
 
 class Template
 {
