@@ -27,6 +27,9 @@ class Item
     public $bookId          = null;
     public $type            = null;
 
+    /** @var  File[] */
+    private $files = null;
+
     static function retrieveItem($itemId)
     {
         $request = new Request;
@@ -34,9 +37,18 @@ class Item
         return new Item($response->fetch("data"));
     }
 
-    function files()
+    function getFiles()
     {
-        return (new FileCollection)->forItemId($this->id);
+        // This triggers a Request to GatherContent. Only do this if we don't already have data
+        if ($this->files === null) {
+            $this->files = (new FileCollection)->forItemId($this->id);
+        }
+
+        return $this->files;
+    }
+
+    function setFiles($files) {
+        $this->files = $files;
     }
 
     function getBookId() {
