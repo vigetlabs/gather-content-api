@@ -57,7 +57,6 @@ class HTTPClient
 
     private function sendRequest($url, $additionalCurlOptions)
     {
-      $start = microtime(true);
         $curl = curl_init($url);
 
         curl_setopt_array($curl, ($this->defaultCurlOptions() + $additionalCurlOptions));
@@ -71,10 +70,6 @@ class HTTPClient
         $response->status = $status;
         $response->body   = $body;
 
-
-        $end = microtime(true);
-
-        print($url.': '.($end - $start).' seconds'.PHP_EOL);
         return $response;
     }
 
