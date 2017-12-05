@@ -6,11 +6,13 @@ class HTTPClient
 {
     public $email   = null;
     public $api_key = null;
+    public $totalConcurrentRequests = 10;
 
-    public function __construct($email = null, $api_key = null)
+    public function __construct($email = null, $api_key = null, $totalConcurrentRequests = 10)
     {
         $this->email   = $email;
         $this->api_key = $api_key;
+        $this->totalConcurrentRequests = $totalConcurrentRequests;
     }
 
     public function get($base_url, $params = [], $headers = [])
@@ -78,8 +80,6 @@ class HTTPClient
 
     private function sendMultiRequest($urls, $additionalCurlOptions)
     {
-        $start = microtime(true);
-
         // data to be returned
         $results = array();
 
@@ -88,61 +88,55 @@ class HTTPClient
 
         // initialize the multihandler
         $mh = curl_multi_init();
-        foreach ($urls as $key => $url) {
-            // initiate individual channel
-            $channels[$key] = curl_init($url);
 
-            curl_setopt_array($channels[$key], ($this->defaultCurlOptions() + $additionalCurlOptions));
+        $active = 0;
+        $urlIndex = 0;
 
-            // add channel to multihandler
-            curl_multi_add_handle($mh, $channels[$key]);
-        }
-
-        // execute - if there is an active connection then keep looping
-        $active = null;
+        // Process Loop
         do {
-            print('.');
-            $status = curl_multi_exec($mh, $active);
-        }
-        while ($active && $status == CURLM_OK);
+            // Add to the in flight requests
+            $numToAdd = $this->totalConcurrentRequests - $active;
 
-//        do {
-//            $mrc = curl_multi_exec($mh, $active);
-//            echo 'MRC:'.$mrc.$active.PHP_EOL;
-//        } while ($mrc == CURLM_CALL_MULTI_PERFORM);
-//
-//        $active = 1;$mrc=CURLM_OK;
-//        while ($active && $mrc == CURLM_OK) {
-//            if (curl_multi_select($mh) != -1) {
-//                do {
-//                    print('.');
-//
-//                    $mrc = curl_multi_exec($mh, $active);
-//                } while ($mrc == CURLM_CALL_MULTI_PERFORM);
-//            }
-//        }
+            while ($numToAdd-- && $urlIndex < count($urls)) {
+                $url = $urls[$urlIndex];
+                // initiate individual channel
+                $channel = curl_init($url);
 
-        // process the responses, remove the handlers, then close them
-        foreach ($channels as $key => $channel) {
-            $content = curl_multi_getcontent($channel);
+                curl_setopt_array($channel, ($this->defaultCurlOptions() + $additionalCurlOptions));
 
-            if ($content) {
-                $response = new \StdClass;
-                $response->status = curl_getinfo($channel, CURLINFO_HTTP_CODE);
-                $response->body   = curl_multi_getcontent($channel);
+                // add channel to multihandler
+                curl_multi_add_handle($mh, $channel);
 
-                $results[$key] = $response;
+                $channels[$url] = $channel;
+                $urlIndex++;
             }
-            curl_multi_remove_handle($mh, $channel);
-            // TODO: Check to see if this is necessary
-            //curl_close($channel);
-        }
+
+            do {
+                $mrc = curl_multi_exec($mh, $active);
+            } while ($mrc === CURLM_CALL_MULTI_PERFORM);
+
+            // This waits for more activity on the multi connection
+            curl_multi_select($mh);
+
+            // Check for responses
+            while ($multiInfo = curl_multi_info_read($mh)) {
+                $channel = $multiInfo['handle'];
+
+                $content = curl_multi_getcontent($channel);
+                if ($content) {
+                    $response = new \StdClass;
+                    $response->status = curl_getinfo($channel, CURLINFO_HTTP_CODE);
+                    $response->body   = curl_multi_getcontent($channel);
+
+                    $results[] = $response;
+                }
+                curl_multi_remove_handle($mh, $channel);
+                curl_close($channel);
+            }
+        } while ($active > 0 || $urlIndex < count($urls));
 
         // close the multihandler
         curl_multi_close($mh);
-        $end = microtime(true);
-
-        print('Get Multi '.count($channels).' urls: '.($end - $start).' seconds'.PHP_EOL);
         return $results;
     }
 }

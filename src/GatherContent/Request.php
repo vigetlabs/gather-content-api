@@ -18,6 +18,10 @@ class Request
         $this->client->api_key = Configuration::$api_key;
     }
 
+    function setTotalConcurrentRequests($totalConcurrentRequests) {
+        $this->client->totalConcurrentRequests = $totalConcurrentRequests;
+    }
+
     function get($endpoint, $params = [])
     {
         $http_response = $this->client->get($this->getUrl($endpoint), $params, $this->headers);
