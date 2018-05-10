@@ -76,14 +76,15 @@ class HTTPClient
     private function sendMultiRequest($urls, $additionalCurlOptions)
     {
         // data to be returned
-        $results = array();
+        $results = [];
 
         // array of curl handles
-        $channels = array();
+        $channels = [];
 
         // initialize the multihandler
         $mh = curl_multi_init();
 
+        $hitRateLimit = false;
         $active = 0;
         $urlIndex = 0;
 
@@ -91,6 +92,7 @@ class HTTPClient
         do {
             // Add to the in flight requests
             $numToAdd = $this->totalConcurrentRequests - $active;
+            $numAdded = 0;
 
             while ($numToAdd-- && $urlIndex < count($urls)) {
                 $url = $urls[$urlIndex];
@@ -104,6 +106,7 @@ class HTTPClient
 
                 $channels[$url] = $channel;
                 $urlIndex++;
+                $numAdded++;
             }
 
             do {
@@ -119,15 +122,33 @@ class HTTPClient
 
                 $content = curl_multi_getcontent($channel);
                 if ($content) {
-                    $response = new \StdClass;
-                    $response->status = curl_getinfo($channel, CURLINFO_HTTP_CODE);
-                    $response->body   = curl_multi_getcontent($channel);
-
-                    $results[] = $response;
+                    if (curl_getinfo($channel, CURLINFO_HTTP_CODE) == 429) {
+                        $hitRateLimit = true;
+                        // queue this url again
+                        $urls[] = curl_getinfo($channel, CURLINFO_EFFECTIVE_URL);
+                    } else {
+                        $response = new \StdClass;
+                        $response->status = curl_getinfo($channel, CURLINFO_HTTP_CODE);
+                        $response->body   = curl_multi_getcontent($channel);
+                        $results[] = $response;    
+                    }
                 }
                 curl_multi_remove_handle($mh, $channel);
                 curl_close($channel);
             }
+
+            if ($hitRateLimit) {
+                $hitRateLimit = false;
+                usleep(100 * 1000);
+            }
+
+            // temp - GatherContent doesn't implement 429 responses yet
+            // so for now, just force a sleep
+            // goal is max of 60 requests / minute
+            $microSecondsInSecond = 1000 * 1000;
+            $targetPerMinute = 60;
+            $secondsToSleepFor = (float) $numAdded / $targetPerMinute;
+            usleep((int)($secondsToSleepFor * $microSecondsInSecond));
         } while ($active > 0 || $urlIndex < count($urls));
 
         // close the multihandler
