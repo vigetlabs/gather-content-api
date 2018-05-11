@@ -145,10 +145,13 @@ class HTTPClient
             // temp - GatherContent doesn't implement 429 responses yet
             // so for now, just force a sleep
             // goal is max of 60 requests / minute
-            $microSecondsInSecond = 1000 * 1000;
-            $targetPerMinute = 60;
-            $secondsToSleepFor = (float) $numAdded / $targetPerMinute;
-            usleep((int)($secondsToSleepFor * $microSecondsInSecond));
+            if ($numAdded > 0) {
+                $microSecondsInSecond = 1000 * 1000;
+                $targetPerMinute = 60;
+                $secondsToSleepFor = (float) $numAdded / $targetPerMinute * 60;
+                echo("made $numAdded requests\nsleep for $secondsToSleepFor seconds\n"); // DEBUGGING
+                usleep((int)($secondsToSleepFor * $microSecondsInSecond));
+            }
         } while ($active > 0 || $urlIndex < count($urls));
 
         // close the multihandler
