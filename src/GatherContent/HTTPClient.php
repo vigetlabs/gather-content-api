@@ -138,18 +138,21 @@ class HTTPClient
             }
 
             if ($hitRateLimit) {
+                // TODO they haven't implemented 429s yet, but when they do, we should check for a
+                // suggested time to wait for until requesting again. for now, just guess 10 seconds
                 $hitRateLimit = false;
                 sleep(10);
             }
 
             // temp - GatherContent doesn't implement 429 responses yet
             // so for now, just force a sleep
-            // goal is max of 60 requests / minute
+            // goal is max of 300 requests / minute
             if ($numAdded > 0) {
                 $microSecondsInSecond = 1000 * 1000;
-                $targetPerMinute = 60;
+                $targetPerMinute = 300;
                 $secondsToSleepFor = (float) $numAdded / $targetPerMinute * 60;
-                // echo("made $numAdded requests\nsleep for $secondsToSleepFor seconds\n"); // DEBUGGING
+                // DEBUGGING
+                // $numUrls = count($urls); echo("made $numAdded requests - sleep for $secondsToSleepFor seconds - $urlIndex / $numUrls\n");
                 usleep((int)($secondsToSleepFor * $microSecondsInSecond));
             }
         } while ($active > 0 || $urlIndex < count($urls));
