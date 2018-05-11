@@ -149,7 +149,7 @@ class HTTPClient
                 $microSecondsInSecond = 1000 * 1000;
                 $targetPerMinute = 60;
                 $secondsToSleepFor = (float) $numAdded / $targetPerMinute * 60;
-                echo("made $numAdded requests\nsleep for $secondsToSleepFor seconds\n"); // DEBUGGING
+                // echo("made $numAdded requests\nsleep for $secondsToSleepFor seconds\n"); // DEBUGGING
                 usleep((int)($secondsToSleepFor * $microSecondsInSecond));
             }
         } while ($active > 0 || $urlIndex < count($urls));
