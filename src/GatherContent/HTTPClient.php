@@ -139,7 +139,7 @@ class HTTPClient
 
             if ($hitRateLimit) {
                 $hitRateLimit = false;
-                usleep(100 * 1000);
+                sleep(10);
             }
 
             // temp - GatherContent doesn't implement 429 responses yet
