@@ -146,10 +146,10 @@ class HTTPClient
 
             // temp - GatherContent doesn't implement 429 responses yet
             // so for now, just force a sleep
-            // goal is max of 300 requests / minute
+            // goal is max of 400 requests / minute
             if ($numAdded > 0) {
                 $microSecondsInSecond = 1000 * 1000;
-                $targetPerMinute = 300;
+                $targetPerMinute = 400;
                 $secondsToSleepFor = (float) $numAdded / $targetPerMinute * 60;
                 // DEBUGGING
                 // $numUrls = count($urls); echo("made $numAdded requests - sleep for $secondsToSleepFor seconds - $urlIndex / $numUrls\n");
