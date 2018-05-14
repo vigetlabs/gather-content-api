@@ -7,12 +7,14 @@ class HTTPClient
     public $email   = null;
     public $api_key = null;
     public $totalConcurrentRequests = 10;
+    public $rateLimitTargetPerMinute = 400;
 
-    public function __construct($email = null, $api_key = null, $totalConcurrentRequests = 10)
+    public function __construct($email = null, $api_key = null, $totalConcurrentRequests = 10, $rateLimitTargetPerMinute = 400)
     {
         $this->email   = $email;
         $this->api_key = $api_key;
         $this->totalConcurrentRequests = $totalConcurrentRequests;
+        $this->rateLimitTargetPerMinute = $rateLimitTargetPerMinute;
     }
 
     public function get($base_url, $params = [], $headers = [])
@@ -149,8 +151,7 @@ class HTTPClient
             // goal is max of 400 requests / minute
             if ($numAdded > 0) {
                 $microSecondsInSecond = 1000 * 1000;
-                $targetPerMinute = 400;
-                $secondsToSleepFor = (float) $numAdded / $targetPerMinute * 60;
+                $secondsToSleepFor = (float) $numAdded / $this->rateLimitTargetPerMinute * 60;
                 // DEBUGGING
                 // $numUrls = count($urls); echo("made $numAdded requests - sleep for $secondsToSleepFor seconds - $urlIndex / $numUrls\n");
                 usleep((int)($secondsToSleepFor * $microSecondsInSecond));
