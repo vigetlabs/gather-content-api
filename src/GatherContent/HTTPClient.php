@@ -53,7 +53,8 @@ class HTTPClient
         return [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_USERPWD        => "{$this->email}:{$this->api_key}",
-            CURLOPT_SSL_VERIFYPEER => true
+            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_TIMEOUT        => 60
         ];
     }
 
