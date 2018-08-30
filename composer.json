@@ -1,17 +1,10 @@
 {
-    "name": "vigetlabs/gather-content-api",
+    "name": "course-hero/gather-content-api",
     "description": "API client for the GatherContent service.",
     "keywords": ["gathercontent", "api"],
     "homepage": "https://github.com/vigetlabs/gather-content-api",
     "type": "library",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Patrick Reagan",
-            "email": "patrick.reagan@viget.com",
-            "homepage": "http://viget.com/extend"
-        }
-    ],
 
     "require": {
         "php": ">=5.4.0"
